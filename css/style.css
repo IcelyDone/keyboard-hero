@@ -13,10 +13,12 @@ body {
 
 .fretButton {
   width: 100%;
-  height: 100px;
+  height: 75px;
+/* BE SURE TO EDIT THIS FONT SIZE */
+  font-size: 12px;
 }  
 
-#bridge {
+#fretBoard {
   background-color: #AAAAFF;
   margin: 0 auto;
   width: 60%;
