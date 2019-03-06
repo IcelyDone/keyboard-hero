@@ -1,6 +1,9 @@
 body {
   background-color: #000000;
   color: #FFFFFF;
+}
+
+#playZone {
   display: flex;
   justify-content: space-evenly;
 }
@@ -27,7 +30,7 @@ body {
   width: 7.4%;
   background-color: rgba(255,0,255,0.5);
   justify-self: end;
-  animation: play 10s linear;
+  animation: play 5s linear;
   animation-fill-mode: forwards;
   position: absolute;
 }

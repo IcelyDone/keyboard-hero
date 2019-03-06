@@ -12,6 +12,33 @@ let button5Pressed = 0
 let gameHP = 5;
 let gameScore = 0;
 
+const updateHP = function() {
+  document.querySelector('#hp').innerText = `HP: ${gameHP}`
+}
+
+const updateScore = function() {
+  document.querySelector('#score').innerText = `Score: ${gameScore}`
+}
+
+const buttonPos = button1.getBoundingClientRect()
+const buttonUpperY = buttonPos.y - (buttonPos.height / 2)
+const buttonLowerY = buttonPos.y + (buttonPos.height / 2)
+
+/*
+const clearNote = function() {
+  const noteList = document.querySelectorAll('.note')
+  let noteListArray = Array.from(noteList)
+  let noteIndex = noteListArray.findIndex( note => {return note.style.top = '88%'})
+  if (noteIndex > -1) {
+    noteList[noteIndex].remove()
+    gameHP--
+    updateHP()
+  }
+}
+*/
+
+// setInterval(clearNote, 250)
+
 const addNote = function(noteNum) {
   newNote = document.createElement('div')
   newNote.classList.add('note')
@@ -38,6 +65,11 @@ const addNote = function(noteNum) {
       newNote.classList.add('note5')
       break
   }
+  newNote.addEventListener('animationend', e => {
+    e.target.remove()
+    gameHP--
+    updateHP()
+  })
   document.querySelector('#fret' + noteNum).appendChild(newNote)
 }
 
@@ -47,30 +79,6 @@ setInterval( () => {addNote(3)}, 6000)
 setInterval( () => {addNote(4)}, 7000)
 setInterval( () => {addNote(5)}, 8000)
 
-/*
-setTimeout( () => {addNote(1)}, 0)
-setTimeout( () => {addNote(1)}, 4000)
-setTimeout( () => {addNote(1)}, 8000)
-setTimeout( () => {addNote(1)}, 12000)
-setTimeout( () => {addNote(1)}, 16000)
-*/
-
-const buttonPos = button1.getBoundingClientRect()
-const buttonUpperY = buttonPos.y - (buttonPos.height / 2)
-const buttonLowerY = buttonPos.y + (buttonPos.height / 2)
-
-console.log(buttonPos.y)
-console.log(buttonUpperY)
-console.log(buttonLowerY)
-
-const updateHP = function() {
-  document.querySelector('#hp').innerText = `HP: ${gameHP}`
-}
-
-const updateScore = function() {
-  document.querySelector('#score').innerText = `Score: ${gameScore}`
-}
-
 const checkNotePos = function(note) {
   let noteY = note.getBoundingClientRect().y
   return noteY > buttonUpperY && noteY < buttonLowerY
@@ -79,70 +87,42 @@ const checkNotePos = function(note) {
 const checkStrum = function() {
   const buttonCode = button1Pressed.toString() + button2Pressed + button3Pressed + button4Pressed + button5Pressed 
   let noteCode = ''
+  const notesPlaying = []
+  const notes1 = document.querySelectorAll('.note1')
+  const notes2 = document.querySelectorAll('.note2')
+  const notes3 = document.querySelectorAll('.note3')
+  const notes4 = document.querySelectorAll('.note4')
+  const notes5 = document.querySelectorAll('.note5')
   for (i = 1; i < 6; i++) {
-    const notes = document.querySelectorAll('.note' + i)
-    const notesArray = Array.from(notes)
+    const notesArray = Array.from(eval(`notes${i}`))
     const noteIndex = notesArray.findIndex(checkNotePos)
     if (noteIndex > -1) {
       noteCode += '1'
+      notesPlaying.push(noteIndex)
     } else {
       noteCode += '0'
+      notesPlaying.push(undefined)
     }
-  }
-  if (buttonCode === noteCode && noteCode !== '00000') {
-    gameScore++
-    updateScore()
-  } else {
-    gameHP--
-    updateHP()
+    if (i === 5) {
+      if (buttonCode === noteCode && noteCode !== '00000') {
+        gameScore++
+        updateScore()
+        for (j = 0; j < noteCode.length; j++) {
+          if (notesPlaying[j] !== undefined) {
+            console.log(notesPlaying[j])
+            eval('notes' + (j+1) + '[notesPlaying[j]]').remove()
+          }
+        }
+      } else {
+        gameHP--
+        updateHP()
+      }
+    }
   }
 }
 
-/*   
-
--When strumming, check if there is a button being pressed
-  -If there is no corresponding note above it, remove 1 HP
-  -If there is a corresponding note above it, remove the note and augment score
--If strumming with no buttons pressed, remove 1 HP
-
-^^^^Scrap this I have better logic in mind
-
--Every time a strum is done, take the state of all the buttons pressed (0 or 1), and take the state of notes being above the fret
-    -If they match, remove all notes above fret and augment score according to how many notes are strummed
-    -If no match, remove HP
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
-
-
-
-
-
-
+updateHP()
+updateScore()
 
 document.querySelector('#strum').addEventListener('click', checkStrum)
 
