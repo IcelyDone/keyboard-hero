@@ -3,8 +3,85 @@ body {
   color: #FFFFFF;
 }
 
-#playZone {
+#landingPage, #endPage {
+  height: 95vh;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#endPage {
+  display: none;
+}
+
+#endPage > h1 {
+}
+
+#endPage > h2 {
+}
+
+#landingPage > h1 {
+  display: inline;
+  font-size: 64px;
+  animation: rainbow 4s linear infinite, appear 1s ease-in 1s;
+  animation-fill-mode: backwards;
+}
+
+#landingPage > h2 {
+  animation: appear 1s ease-in 2.5s;
+  animation-fill-mode: backwards;
+}
+
+#letterDiv > img {
+  position: relative;
+  top: 40px;
+  animation: appear 1s ease-in;
+  width: 10vh;
+  height: 10vh;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rainbow {
+  0% { 
+    color: #0000FF;
+  }
+  12.5% { 
+    color: #7700BB;
+  }
+  25% { 
+    color: #FF00FF;
+  }
+  37.5% { 
+    color: #FF0000;
+  }
+  50% { 
+    color: #FFAA00;
+  }
+  62.5% { 
+    color: #FFFF00;
+  }
+  75% { 
+    color: #00FF00;
+  }
+  87.5% { 
+    color: #00FFFF;
+  }
+  100% { 
+    color: #0000FF;
+  }
+}
+
+#playZone {
+  display: none;
   justify-content: space-evenly;
 }
 
@@ -53,7 +130,6 @@ body {
 .fretButton {
   width: 100%;
   height: 75px;
-/* BE SURE TO EDIT THIS FONT SIZE */
   font-size: 12px;
 }  
 

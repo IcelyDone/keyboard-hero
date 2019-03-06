@@ -9,35 +9,34 @@ let button4Pressed = 0
 const button5 = document.querySelector('#button5')
 let button5Pressed = 0
 
-let gameHP = 5;
-let gameScore = 0;
+let gameHP = 6;
+let gameScore = -1;
+
+const gameEnd = function(win) {
+  document.querySelector('#playZone').style.display = 'none'
+  document.querySelector('#endPage').style.display = 'flex'
+  if (win) {
+    document.querySelector('#loseText').style.display = 'none'
+  } else {
+    document.querySelector('#winText').style.display = 'none'
+  }
+  document.querySelector('#endScore').innerText += '  ' + gameScore
+}
 
 const updateHP = function() {
+  gameHP--
   document.querySelector('#hp').innerText = `HP: ${gameHP}`
+  if (gameHP === 0) {gameEnd()}
 }
 
 const updateScore = function() {
+  gameScore++
   document.querySelector('#score').innerText = `Score: ${gameScore}`
+  if (gameScore === 50) {gameEnd('win')}
 }
 
-const buttonPos = button1.getBoundingClientRect()
-const buttonUpperY = buttonPos.y - (buttonPos.height / 2)
-const buttonLowerY = buttonPos.y + (buttonPos.height / 2)
-
-/*
-const clearNote = function() {
-  const noteList = document.querySelectorAll('.note')
-  let noteListArray = Array.from(noteList)
-  let noteIndex = noteListArray.findIndex( note => {return note.style.top = '88%'})
-  if (noteIndex > -1) {
-    noteList[noteIndex].remove()
-    gameHP--
-    updateHP()
-  }
-}
-*/
-
-// setInterval(clearNote, 250)
+updateHP()
+updateScore()
 
 const addNote = function(noteNum) {
   newNote = document.createElement('div')
@@ -67,17 +66,25 @@ const addNote = function(noteNum) {
   }
   newNote.addEventListener('animationend', e => {
     e.target.remove()
-    gameHP--
     updateHP()
   })
   document.querySelector('#fret' + noteNum).appendChild(newNote)
 }
 
-setInterval( () => {addNote(1)}, 4000)
-setInterval( () => {addNote(2)}, 5000)
-setInterval( () => {addNote(3)}, 6000)
-setInterval( () => {addNote(4)}, 7000)
-setInterval( () => {addNote(5)}, 8000)
+let buttonPos, buttonUpperY, buttonLowerY
+
+const playGame = function() {
+  document.querySelector('#landingPage').style.display = 'none'
+  document.querySelector('#playZone').style.display = 'flex'
+  buttonPos = button1.getBoundingClientRect()
+  buttonUpperY = buttonPos.y - (buttonPos.height / 2)
+  buttonLowerY = buttonPos.y + (buttonPos.height / 2)
+  setInterval( () => {addNote(1)}, 4000)
+  setInterval( () => {addNote(2)}, 5000)
+  setInterval( () => {addNote(3)}, 6000)
+  setInterval( () => {addNote(4)}, 7000)
+  setInterval( () => {addNote(5)}, 8000)
+}
 
 const checkNotePos = function(note) {
   let noteY = note.getBoundingClientRect().y
@@ -86,6 +93,7 @@ const checkNotePos = function(note) {
 
 const checkStrum = function() {
   const buttonCode = button1Pressed.toString() + button2Pressed + button3Pressed + button4Pressed + button5Pressed 
+  const buggedNoteCodes = ['10011','01011','00111','11011','10111','01111','11111']
   let noteCode = ''
   const notesPlaying = []
   const notes1 = document.querySelectorAll('.note1')
@@ -104,32 +112,32 @@ const checkStrum = function() {
       notesPlaying.push(undefined)
     }
     if (i === 5) {
-      if (buttonCode === noteCode && noteCode !== '00000') {
-        gameScore++
+      if (buttonCode === noteCode && noteCode !== '00000' || buggedNoteCodes.includes(noteCode)) {
         updateScore()
         for (j = 0; j < noteCode.length; j++) {
           if (notesPlaying[j] !== undefined) {
-            console.log(notesPlaying[j])
-            eval('notes' + (j+1) + '[notesPlaying[j]]').remove()
+            eval(`notes${j+1}[notesPlaying[j]]`).remove()
           }
         }
       } else {
-        gameHP--
         updateHP()
       }
     }
   }
 }
 
-updateHP()
-updateScore()
+document.querySelector('#landingPage').addEventListener('click', playGame)
 
 document.querySelector('#strum').addEventListener('click', checkStrum)
 
+/*
 
+Yes, I know all of these button event listeners are supposed to be in a for-loop to condense the code.
+I tried. It kept bugging out with i values being used within the loop that were outside the range of the condition.
+I could have probably made all this loopable earlier but I wanted to make sure the actual game was coded first, before worrying about aesthetical optimzations.
+Now that I know that eval() exists, making this loopable should be easy.
 
-
-
+*/
 
 document.body.addEventListener('keydown', e => {
   if (e.key == 1) {
