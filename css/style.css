@@ -3,12 +3,26 @@ body {
   color: #FFFFFF;
 }
 
-#landingPage, #endPage {
+#landingPage, #instructions, #endPage {
   height: 95vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#instructions {
+  display: none;
+}
+
+#instructions > p {
+  width: 50%;
+  font-size: 18px;
+}
+
+#instructions > h2 {
+  animation: appear 1s ease-in 4s;
+  animation-fill-mode: backwards;
 }
 
 #endPage {

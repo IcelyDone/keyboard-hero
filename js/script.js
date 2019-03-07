@@ -9,12 +9,18 @@ let button4Pressed = 0
 const button5 = document.querySelector('#button5')
 let button5Pressed = 0
 
+const landingPage = document.querySelector('#landingPage')
+const instructions = document.querySelector('#instructions')
+const playZone = document.querySelector('#playZone')
+const endPage = document.querySelector('#endPage')
+
 let gameHP, gameScore; 
 let playsNotes1, playsNotes2, playsNotes3, playsNotes4, playsNotes5 
+let replay;
 
 const gameEnd = function(win) {
-  document.querySelector('#playZone').style.display = 'none'
-  document.querySelector('#endPage').style.display = 'flex'
+  playZone.style.display = 'none'
+  endPage.style.display = 'flex'
   if (win) {
     document.querySelector('#loseText').style.display = 'none'
   } else {
@@ -23,7 +29,8 @@ const gameEnd = function(win) {
   document.querySelector('#endScore').innerText = 'Your score: ' + gameScore
   let notes = document.querySelectorAll('.note')
   notes.forEach( note => {note.remove()})
-  setTimeout(() => {document.querySelector('#endPage').addEventListener('click', playGame)},1500)
+  endPage.removeEventListener('click', playGame)
+  replay = setTimeout(() => {endPage.addEventListener('click', playGame)},1500)
   clearInterval(playNotes1)
   clearInterval(playNotes2)
   clearInterval(playNotes3)
@@ -64,7 +71,6 @@ const addNote = function(noteNum) {
       newNote.classList.add('note4')
       break
     case 5:
-
       newNote.style.backgroundColor = 'rgba(255,187,0,0.5)'
       newNote.classList.add('note5')
       break
@@ -80,6 +86,11 @@ const noteRandomizer = function() {
  
 }
 
+const showInstructions = function() {
+  landingPage.style.display = 'none'
+  instructions.style.display = 'flex'
+}
+
 let buttonPos, buttonUpperY, buttonLowerY
 
 const playGame = function() {
@@ -87,9 +98,9 @@ const playGame = function() {
   gameScore = -1
   updateHP()
   updateScore()
-  document.querySelector('#landingPage').style.display = 'none'
-  document.querySelector('#playZone').style.display = 'flex'
-  document.querySelector('#endPage').style.display = 'none'
+  instructions.style.display = 'none'
+  playZone.style.display = 'flex'
+  endPage.style.display = 'none'
   buttonPos = button1.getBoundingClientRect()
   buttonUpperY = buttonPos.y - (buttonPos.height / 2)
   buttonLowerY = buttonPos.y + (buttonPos.height / 2)
@@ -127,9 +138,9 @@ const checkStrum = function() {
     }
     if (i === 5) {
       if (buttonCode === noteCode && noteCode !== '00000' || buggedNoteCodes.includes(noteCode)) {
-        updateScore()
         for (j = 0; j < noteCode.length; j++) {
           if (notesPlaying[j] !== undefined) {
+            updateScore()
             eval(`notes${j+1}[notesPlaying[j]]`).remove()
           }
         }
@@ -140,7 +151,10 @@ const checkStrum = function() {
   }
 }
 
-document.querySelector('#landingPage').addEventListener('click', playGame)
+replay = endPage.addEventListener('click', playGame)
+
+landingPage.addEventListener('click', showInstructions)
+instructions.addEventListener('click', playGame)
 
 document.querySelector('#strum').addEventListener('click', checkStrum)
 
@@ -149,7 +163,6 @@ document.querySelector('#strum').addEventListener('click', checkStrum)
 Yes, I know all of these button event listeners are supposed to be in a for-loop to condense the code.
 I tried. It kept bugging out with i values being used within the loop that were outside the range of the condition.
 I could have probably made all this loopable earlier but I wanted to make sure the actual game was coded first, before worrying about aesthetical optimzations.
-Now that I know that eval() exists, making this loopable should be easy.
 
 */
 
