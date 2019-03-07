@@ -19,6 +19,13 @@ body {
 }
 
 #endPage > h2 {
+  position: relative;
+  top: -5%;
+}
+
+#endPage > p {
+  animation: appear 1s ease-in 1.5s;
+  animation-fill-mode: backwards;
 }
 
 #landingPage > h1 {

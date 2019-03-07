@@ -1,10 +1,9 @@
 TO DO:
 
--Make a win/lose end page
 -Make a description page right after landing page
 -Make a good read.me
     -Have a good wireframe in it
+-Make it so that chords give more points
 
 ?- Tutorial?
 ?- Difficulties?
-

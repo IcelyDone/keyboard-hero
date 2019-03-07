@@ -9,8 +9,8 @@ let button4Pressed = 0
 const button5 = document.querySelector('#button5')
 let button5Pressed = 0
 
-let gameHP = 6;
-let gameScore = -1;
+let gameHP, gameScore; 
+let playsNotes1, playsNotes2, playsNotes3, playsNotes4, playsNotes5 
 
 const gameEnd = function(win) {
   document.querySelector('#playZone').style.display = 'none'
@@ -20,7 +20,14 @@ const gameEnd = function(win) {
   } else {
     document.querySelector('#winText').style.display = 'none'
   }
-  document.querySelector('#endScore').innerText += '  ' + gameScore
+  document.querySelector('#endScore').innerText = 'Your score: ' + gameScore
+  let notes = document.querySelectorAll('.note')
+  notes.forEach( note => {note.remove()})
+  clearInterval(playNotes1)
+  clearInterval(playNotes2)
+  clearInterval(playNotes3)
+  clearInterval(playNotes4)
+  clearInterval(playNotes5)
 }
 
 const updateHP = function() {
@@ -34,9 +41,6 @@ const updateScore = function() {
   document.querySelector('#score').innerText = `Score: ${gameScore}`
   if (gameScore === 50) {gameEnd('win')}
 }
-
-updateHP()
-updateScore()
 
 const addNote = function(noteNum) {
   newNote = document.createElement('div')
@@ -74,16 +78,21 @@ const addNote = function(noteNum) {
 let buttonPos, buttonUpperY, buttonLowerY
 
 const playGame = function() {
+  gameHP = 6
+  gameScore = -1
+  updateHP()
+  updateScore()
   document.querySelector('#landingPage').style.display = 'none'
   document.querySelector('#playZone').style.display = 'flex'
+  document.querySelector('#endPage').style.display = 'none'
   buttonPos = button1.getBoundingClientRect()
   buttonUpperY = buttonPos.y - (buttonPos.height / 2)
   buttonLowerY = buttonPos.y + (buttonPos.height / 2)
-  setInterval( () => {addNote(1)}, 4000)
-  setInterval( () => {addNote(2)}, 5000)
-  setInterval( () => {addNote(3)}, 6000)
-  setInterval( () => {addNote(4)}, 7000)
-  setInterval( () => {addNote(5)}, 8000)
+  playNotes1 = setInterval( () => {addNote(1)}, 4000)
+  playNotes2 = setInterval( () => {addNote(2)}, 5000)
+  playNotes3 = setInterval( () => {addNote(3)}, 6000)
+  playNotes4 = setInterval( () => {addNote(4)}, 7000)
+  playNotes5 = setInterval( () => {addNote(5)}, 8000)
 }
 
 const checkNotePos = function(note) {
@@ -127,6 +136,7 @@ const checkStrum = function() {
 }
 
 document.querySelector('#landingPage').addEventListener('click', playGame)
+document.querySelector('#endPage').addEventListener('click', playGame)
 
 document.querySelector('#strum').addEventListener('click', checkStrum)
 
@@ -138,6 +148,62 @@ I could have probably made all this loopable earlier but I wanted to make sure t
 Now that I know that eval() exists, making this loopable should be easy.
 
 */
+
+/*
+
+for (i = 1; i < 6; i++) {
+  document.body.addEventListener('keydown', e => {
+    if (eval(`(e.key == ${i})`)) {
+      eval(`button${i}Pressed`) = 1
+      eval('button' + i + '.innerHTML') = 'PRESSED'
+      eval(`button${i}.style.boxShadow`) = '-2px -2px gray'
+      switch (i) {
+        case 1:
+          eval(`button${i}.style.backgroundColor`) = '#00BB00'
+          break
+        case 2:
+          eval(`button${i}.style.backgroundColor`) = '#BB0000'
+          break
+        case 3:
+          eval(`button${i}.style.backgroundColor`) = '#BBBB00'
+          break
+        case 4:
+          eval(`button${i}.style.backgroundColor`) = '#0000BB'
+          break
+        case 5:
+          eval(`button${i}.style.backgroundColor`) = '#BB9900'
+          break
+      }
+    }
+  })
+  document.body.addEventListener('keyup', e => {
+    if (eval(`(e.key == ${i})`)) {
+      eval(`button${i}Pressed`) = 0
+      eval(`button${i}.innerHTML`) = i
+      eval(`button${i}.style.boxShadow`) = '0px 0px'
+      switch (i) {
+        case 1:
+          eval(`button${i}.style.backgroundColor`) = '#00FF00'
+          break
+        case 2:
+          eval(`button${i}.style.backgroundColor`) = '#FF0000'
+          break
+        case 3:
+          eval(`button${i}.style.backgroundColor`) = '#FFFF00'
+          break
+        case 4:
+          eval(`button${i}.style.backgroundColor`) = '#0000FF'
+          break
+        case 5:
+          eval(`button${i}.style.backgroundColor`) = '#FFBB00'
+          break
+      }
+    }
+  })
+}
+
+*/
+
 
 document.body.addEventListener('keydown', e => {
   if (e.key == 1) {
@@ -223,4 +289,5 @@ document.body.addEventListener('keyup', e => {
     button5.style.backgroundColor = '#FFBB00'
   }
 })
+
 
