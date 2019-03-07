@@ -14,6 +14,7 @@ const instructions = document.querySelector('#instructions')
 const playZone = document.querySelector('#playZone')
 const endPage = document.querySelector('#endPage')
 
+
 let playing = false
 
 let gameHP, gameScore, difficulty 
@@ -22,6 +23,7 @@ let replay
 
 const gameEnd = function(win) {
   playing = false
+
   playZone.style.display = 'none'
   endPage.style.display = 'flex'
   if (win) {
@@ -102,6 +104,11 @@ const noteRandomizer = function(diff) {
     setTimeout( () => {addNote(5)}, randNum5)
     setTimeout( () => {noteRandomizer(diff)}, 1000 * diff)
   }
+}
+
+const showInstructions = function() {
+  landingPage.style.display = 'none'
+  instructions.style.display = 'flex'
 }
 
 let buttonPos, buttonUpperY, buttonLowerY
