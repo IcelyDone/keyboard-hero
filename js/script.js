@@ -110,11 +110,6 @@ const noteRandomizer = function(diff) {
   }
 }
 
-const showInstructions = function() {
-  landingPage.style.display = 'none'
-  instructions.style.display = 'flex'
-}
-
 let buttonPos, buttonUpperY, buttonLowerY
 
 const playGame = function(diff) {
