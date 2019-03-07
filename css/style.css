@@ -3,12 +3,59 @@ body {
   color: #FFFFFF;
 }
 
-#landingPage, #endPage {
+#landingPage, #instructions, #endPage {
   height: 95vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#instructions {
+  display: none;
+}
+
+#instructions > p {
+  width: 50%;
+  font-size: 18px;
+}
+
+#instructions > h2 {
+  animation: appear 1s ease-in 1s;
+  animation-fill-mode: backwards;
+}
+
+#instructions > ul {
+  list-style-type: none;
+}
+
+#instructions a {
+  font-size: 24px;
+  text-decoration: none;
+}
+
+#instructions li {
+  padding: 10px;
+}
+
+#instructions li:nth-of-type(1) {
+  animation: appear 1s ease-in 2.25s;
+  animation-fill-mode: backwards;
+}
+
+#instructions li:nth-of-type(2) {
+  animation: appear 1s ease-in 2.5s;
+  animation-fill-mode: backwards;
+}
+
+#instructions li:nth-of-type(3) {
+  animation: appear 1s ease-in 2.75s;
+  animation-fill-mode: backwards;
+}
+
+#instructions li:nth-of-type(4) {
+  animation: appear 1s ease-in 3s;
+  animation-fill-mode: backwards;
 }
 
 #endPage {
@@ -18,10 +65,24 @@ body {
 #endPage > h1 {
 }
 
-#endPage > h2 {
+#endScore {
   position: relative;
   top: -5%;
 }
+
+#endHP {
+  position: relative;
+  top: -10%;
+}
+
+#flawless {
+  font-size: 36px;
+  position: relative;
+  top: -6%;
+  animation: rainbow 4s linear infinite;
+  font-style: italic;
+}
+
 
 #endPage > p {
   animation: appear 1s ease-in 1.5s;
