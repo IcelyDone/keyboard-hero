@@ -23,6 +23,7 @@ const gameEnd = function(win) {
   document.querySelector('#endScore').innerText = 'Your score: ' + gameScore
   let notes = document.querySelectorAll('.note')
   notes.forEach( note => {note.remove()})
+  setTimeout(() => {document.querySelector('#endPage').addEventListener('click', playGame)},1500)
   clearInterval(playNotes1)
   clearInterval(playNotes2)
   clearInterval(playNotes3)
@@ -73,6 +74,10 @@ const addNote = function(noteNum) {
     updateHP()
   })
   document.querySelector('#fret' + noteNum).appendChild(newNote)
+}
+
+const noteRandomizer = function() {
+ 
 }
 
 let buttonPos, buttonUpperY, buttonLowerY
@@ -136,7 +141,6 @@ const checkStrum = function() {
 }
 
 document.querySelector('#landingPage').addEventListener('click', playGame)
-document.querySelector('#endPage').addEventListener('click', playGame)
 
 document.querySelector('#strum').addEventListener('click', checkStrum)
 
