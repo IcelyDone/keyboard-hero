@@ -28,7 +28,11 @@ const gameEnd = function(win) {
   endPage.style.display = 'flex'
   if (win) {
     document.querySelector('#loseText').style.display = 'none'
+    document.querySelector('#winText').style.display = 'block'
+    document.querySelector('#endHP').style.display = 'block'
+    
   } else {
+    document.querySelector('#loseText').style.display = 'block'
     document.querySelector('#winText').style.display = 'none'
     document.querySelector('#endHP').style.display = 'none'
   }
