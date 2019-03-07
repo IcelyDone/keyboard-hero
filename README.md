@@ -4,6 +4,8 @@
 
 This is a functional and responsive in-browser-replica of the popular console game Guitar Hero, where you get to play a virtual guitar and play cool songs (I didn't replicate the songs though, but you still get to rock on!)
 
+[Play it here](https://icelydone.github.io/keyboard-hero/)
+
 ### Instructions
 
 The game is simple: hold down the 1-5 keys on your keyboard in correspondence to the notes traveling downwards on the page, and when they pass over the frets (numbered buttons), clicks the "Strum!" button with your mouse! If you successfully strum the note, you gain a point! If you fail to strum a note or mistime the strum, you lose HP!
