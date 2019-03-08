@@ -63,6 +63,7 @@ const gameEnd = function(win) {
   document.querySelector('#hard').removeEventListener('click', hardGame)
   document.querySelector('#exp').removeEventListener('click', expGame)
 }
+
 const updateHP = function() {
   gameHP--
   document.querySelector('#hp').innerText = `HP: ${gameHP}`
