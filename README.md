@@ -32,7 +32,7 @@ Losing the game:
 
 ### Making of The Game
 
-[Wireframe](https://i.imgur.com/yPhLXnY.jpg)
+[Wireframe](https://imgur.com/yPhLXnY.jpg)
 
 HTML, CSS, and Javascript were used to make this webpage.
 
