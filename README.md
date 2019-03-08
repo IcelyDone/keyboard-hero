@@ -26,3 +26,7 @@ Winning the game:
 
 Losing the game:
 ![](http://i.imgur.com/5BePaBF.png)
+
+### Making of The Game
+
+[Wireframe](https://i.imgur.com/yPhLXnY.jpg)
