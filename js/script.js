@@ -1,4 +1,4 @@
-const button1 = document.querySelector('#button1')
+const button1 = document.querySelector('#button1') 
 let button1Pressed = 0
 const button2 = document.querySelector('#button2')
 let button2Pressed = 0
@@ -9,26 +9,59 @@ let button4Pressed = 0
 const button5 = document.querySelector('#button5')
 let button5Pressed = 0
 
-let gameHP, gameScore; 
+const landingPage = document.querySelector('#landingPage')
+const instructions = document.querySelector('#instructions')
+const playZone = document.querySelector('#playZone')
+const endPage = document.querySelector('#endPage')
+
+let playing = false
+let unlimited = false
+
+let gameHP, gameScore, difficulty 
 let playsNotes1, playsNotes2, playsNotes3, playsNotes4, playsNotes5 
+let replay
 
 const gameEnd = function(win) {
-  document.querySelector('#playZone').style.display = 'none'
-  document.querySelector('#endPage').style.display = 'flex'
+  playing = false
+  unlimited = false
+  playZone.style.display = 'none'
+  endPage.style.display = 'flex'
   if (win) {
     document.querySelector('#loseText').style.display = 'none'
+    document.querySelector('#winText').style.display = 'block'
+    document.querySelector('#endHP').style.display = 'block'
+    
   } else {
+    document.querySelector('#loseText').style.display = 'block'
     document.querySelector('#winText').style.display = 'none'
+    document.querySelector('#endHP').style.display = 'none'
+  }
+  switch (difficulty) {
+    case 'easy':
+      document.querySelector('#difficulty').innerHTML = 'Difficulty: <span style="color:green">Easy</span>'
+      break
+    case 'medium':
+      document.querySelector('#difficulty').innerHTML = 'Difficulty: <span style="color:yellow">Medium</span>'
+      break
+    case 'hard':
+      document.querySelector('#difficulty').innerHTML = 'Difficulty: <span style="color:orange">Hard</span>'
+      break
+    case 'expert':
+      document.querySelector('#difficulty').innerHTML = 'Difficulty: <span style="color:red">Expert</span>'
+      break
   }
   document.querySelector('#endScore').innerText = 'Your score: ' + gameScore
+  document.querySelector('#endHP').innerText = 'Your HP: ' + gameHP
+  if (gameHP === 10) {
+    document.querySelector('#flawless').style.display = 'block'
+  }
   let notes = document.querySelectorAll('.note')
   notes.forEach( note => {note.remove()})
-  setTimeout(() => {document.querySelector('#endPage').addEventListener('click', playGame)},1500)
-  clearInterval(playNotes1)
-  clearInterval(playNotes2)
-  clearInterval(playNotes3)
-  clearInterval(playNotes4)
-  clearInterval(playNotes5)
+  replay = setTimeout(() => {endPage.addEventListener('click', showInstructions)},1500)
+  document.querySelector('#ez').removeEventListener('click', easyGame)
+  document.querySelector('#med').removeEventListener('click', medGame)
+  document.querySelector('#hard').removeEventListener('click', hardGame)
+  document.querySelector('#exp').removeEventListener('click', expGame)
 }
 
 const updateHP = function() {
@@ -40,7 +73,10 @@ const updateHP = function() {
 const updateScore = function() {
   gameScore++
   document.querySelector('#score').innerText = `Score: ${gameScore}`
-  if (gameScore === 50) {gameEnd('win')}
+  if (gameScore === 20 && difficulty === 'easy' && !unlimited || 
+      gameScore === 35 && difficulty === 'medium' && !unlimited ||
+      gameScore === 70 && difficulty === 'hard' && !unlimited ||
+      gameScore === 100 && difficulty === 'expert' && !unlimited ) {gameEnd('win')}
 }
 
 const addNote = function(noteNum) {
@@ -64,7 +100,6 @@ const addNote = function(noteNum) {
       newNote.classList.add('note4')
       break
     case 5:
-
       newNote.style.backgroundColor = 'rgba(255,187,0,0.5)'
       newNote.classList.add('note5')
       break
@@ -76,24 +111,69 @@ const addNote = function(noteNum) {
   document.querySelector('#fret' + noteNum).appendChild(newNote)
 }
 
+const noteRandomizer = function(diff) {
+  if (playing) {
+    const randNum = () => {return Math.floor(Math.random() * diff) * 1000}
+    const randNum1 = randNum(), randNum2 = randNum(), randNum3 = randNum(), randNum4 = randNum(), randNum5 = randNum()
+    setTimeout( () => {addNote(1)}, randNum1)
+    setTimeout( () => {addNote(2)}, randNum2)
+    setTimeout( () => {addNote(3)}, randNum3)
+    setTimeout( () => {addNote(4)}, randNum4)
+    setTimeout( () => {addNote(5)}, randNum5)
+    setTimeout( () => {noteRandomizer(diff)}, 1000 * diff)
+  }
+}
+
 let buttonPos, buttonUpperY, buttonLowerY
 
-const playGame = function() {
-  gameHP = 6
+const playGame = function(diff) {
+  let notes = document.querySelectorAll('.note')
+  notes.forEach( note => {note.remove()})
+  gameHP = 11
   gameScore = -1
+  playing = true
   updateHP()
   updateScore()
-  document.querySelector('#landingPage').style.display = 'none'
-  document.querySelector('#playZone').style.display = 'flex'
-  document.querySelector('#endPage').style.display = 'none'
+  instructions.style.display = 'none'
+  playZone.style.display = 'flex'
+  endPage.style.display = 'none'
+  document.querySelector('#endHP').style.display = 'block'
+  document.querySelector('#flawless').style.display = 'none'
   buttonPos = button1.getBoundingClientRect()
   buttonUpperY = buttonPos.y - (buttonPos.height / 2)
   buttonLowerY = buttonPos.y + (buttonPos.height / 2)
-  playNotes1 = setInterval( () => {addNote(1)}, 4000)
-  playNotes2 = setInterval( () => {addNote(2)}, 5000)
-  playNotes3 = setInterval( () => {addNote(3)}, 6000)
-  playNotes4 = setInterval( () => {addNote(4)}, 7000)
-  playNotes5 = setInterval( () => {addNote(5)}, 8000)
+  noteRandomizer(diff)
+}
+
+const easyGame = function() {
+  difficulty = 'easy'
+  playGame(12)
+}
+
+const medGame = function() {
+  difficulty = 'medium'
+  playGame(8)
+}
+
+const hardGame = function() {
+  difficulty = 'hard'
+  playGame(3)
+}
+
+const expGame = function() {
+  difficulty = 'expert'
+  playGame(2)
+}
+
+const showInstructions = function() {
+  // document.querySelector('#logo').style.display = 'inline'
+  landingPage.style.display = 'none'
+  instructions.style.display = 'flex'
+  endPage.style.display = 'none'
+  document.querySelector('#ez').addEventListener('click', easyGame)
+  document.querySelector('#med').addEventListener('click', medGame)
+  document.querySelector('#hard').addEventListener('click', hardGame)
+  document.querySelector('#exp').addEventListener('click', expGame)
 }
 
 const checkNotePos = function(note) {
@@ -123,9 +203,9 @@ const checkStrum = function() {
     }
     if (i === 5) {
       if (buttonCode === noteCode && noteCode !== '00000' || buggedNoteCodes.includes(noteCode)) {
-        updateScore()
         for (j = 0; j < noteCode.length; j++) {
           if (notesPlaying[j] !== undefined) {
+            updateScore()
             eval(`notes${j+1}[notesPlaying[j]]`).remove()
           }
         }
@@ -136,7 +216,7 @@ const checkStrum = function() {
   }
 }
 
-document.querySelector('#landingPage').addEventListener('click', playGame)
+landingPage.addEventListener('click', showInstructions)
 
 document.querySelector('#strum').addEventListener('click', checkStrum)
 
@@ -145,7 +225,6 @@ document.querySelector('#strum').addEventListener('click', checkStrum)
 Yes, I know all of these button event listeners are supposed to be in a for-loop to condense the code.
 I tried. It kept bugging out with i values being used within the loop that were outside the range of the condition.
 I could have probably made all this loopable earlier but I wanted to make sure the actual game was coded first, before worrying about aesthetical optimzations.
-Now that I know that eval() exists, making this loopable should be easy.
 
 */
 
@@ -203,7 +282,6 @@ for (i = 1; i < 6; i++) {
 }
 
 */
-
 
 document.body.addEventListener('keydown', e => {
   if (e.key == 1) {

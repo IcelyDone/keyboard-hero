@@ -1,9 +1,15 @@
 body {
   background-color: #000000;
   color: #FFFFFF;
+  font-family: 'Quantico', sans-serif;
+  /*
+  font-family: 'Rajdhani', sans-serif;
+  font-family: 'Play', sans-serif;
+  font-family: 'Coda', cursive;
+  */
 }
 
-#landingPage, #endPage {
+#landingPage, #instructions, #endPage {
   height: 95vh;
   display: flex;
   flex-direction: column;
@@ -11,20 +17,101 @@ body {
   align-items: center;
 }
 
+#logo {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 10%;
+}
+
+#instructions {
+  display: none;
+}
+
+#instructions > p {
+  width: 70%;
+  font-size: 18px;
+  margin: 10px;
+}
+
+#unlimited {
+  font-size: 14px;
+}
+
+#instructions > h2 {
+  animation: appear 1s ease-in 1s;
+  animation-fill-mode: backwards;
+}
+
+#instructions > ul {
+  list-style-type: none;
+}
+
+#instructions a {
+  font-size: 24px;
+  text-decoration: none;
+}
+
+#instructions li {
+  padding: 10px;
+}
+
+#instructions li:nth-of-type(1) {
+  animation: appear 1s ease-in 2.25s;
+  animation-fill-mode: backwards;
+}
+
+#instructions li:nth-of-type(2) {
+  animation: appear 1s ease-in 2.5s;
+  animation-fill-mode: backwards;
+}
+
+#instructions li:nth-of-type(3) {
+  animation: appear 1s ease-in 2.75s;
+  animation-fill-mode: backwards;
+}
+
+#instructions li:nth-of-type(4) {
+  animation: appear 1s ease-in 3s;
+  animation-fill-mode: backwards;
+}
+
 #endPage {
   display: none;
 }
 
-#endPage > h1 {
+#endPage .spacing {
+  letter-spacing: 0.2em;
 }
 
-#endPage > h2 {
+#difficulty {
   position: relative;
   top: -5%;
 }
 
+#endScore {
+  position: relative;
+  top: -10%;
+}
+
+#endHP {
+  position: relative;
+  top: -15%;
+}
+
+#flawless {
+  font-size: 36px;
+  position: relative;
+  top: -5%;
+  animation: rainbow 4s linear infinite;
+  font-style: italic;
+}
+
+
 #endPage > p {
-  animation: appear 1s ease-in 1.5s;
+  animation: appear 1s ease-in infinite 1.5s;
+  animation-direction: alternate;
   animation-fill-mode: backwards;
 }
 
@@ -33,10 +120,12 @@ body {
   font-size: 64px;
   animation: rainbow 4s linear infinite, appear 1s ease-in 1s;
   animation-fill-mode: backwards;
+  letter-spacing: 0.15em;
 }
 
 #landingPage > h2 {
-  animation: appear 1s ease-in 2.5s;
+  animation: appear 1s ease-in infinite 2.5s;
+  animation-direction: alternate;
   animation-fill-mode: backwards;
 }
 
@@ -184,4 +273,3 @@ body {
 #button5 {
   background-color: #FFAA00;
 }
-
