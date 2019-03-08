@@ -3,7 +3,10 @@ TO DO:
 -Make a description page right after landing page
 -Make a good read.me
     -Have a good wireframe in it
--Make it so that chords give more points
+
+--Unlimited mode
+
+-Separate difficulty and instructions
+-Logos 
 
 ?- Tutorial?
-?- Difficulties?
