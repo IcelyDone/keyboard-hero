@@ -5,7 +5,7 @@
 This is a functional and responsive in-browser-replica of the popular console game Guitar Hero, where you get to play a virtual guitar and play cool songs (I didn't replicate the songs though, but you still get to rock on!)
 
 
-[Play it here!](https://icelydone.github.io/keyboard-hero/)
+[Play it here!](https://sorensoroush.github.io/keyboard-hero/)
 
 ### Instructions
 
